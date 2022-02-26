@@ -1,5 +1,4 @@
 from flask import Flask, render_template, flash
-from numpy import number
 from forms import PlayerLoginForm, RemovePlayerForm, AddPlayerForm, AddResultForm, RenamePlayerForm, AdminLoginForm, AddMatchForm, RemoveMatchForm, LoadMatchForm, RemoveResultsForm
 from Player import Player
 from Result import Result
@@ -7,7 +6,6 @@ from Match import Match
 from wtforms import StringField
 import datetime
 from DatabaseConnector import DatabaseConnector
-import os
 
 
 app = Flask(__name__)
