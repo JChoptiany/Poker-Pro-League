@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>Remove all the results</h2>
+               <form method="POST" action="">
+                  {{ form.hidden_tag() }}
+                  <fieldset class="form-group">
+                     <div class="form-group">
+                        {{ form.password.label(class="form-control-label") }}
+                        {{ form.password(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.confirmation_text.label(class="form-control-label") }}
+                        {{ form.confirmation_text(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.confirmation_click.label(class="form-control-label") }}
+                        {{ form.confirmation_click(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.submit(class="form-control btn-primary") }}
+                     </div>            
+                  </fieldset>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}

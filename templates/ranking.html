@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>🏆 Ranking table</h2>
+               <span>#️⃣ Matches played: {{matches_played}}</span><br>
+               <span>📅 Recent match: {{recent_match}}</span><br>
+               <span>📈 <a href="login">Click here for detailed statistics</a></span>
+            </div>
+         </div>
+      </div>
+      <table class="table">
+         <thead class="thead-dark">
+            <tr>
+               <th scope="th">Position</th>
+               <th scope="th">Player</th>
+               <th scope="th">Points</th>
+               <th scope="th">Wins</th>
+               <th scope="th">Matches</th>
+            </tr>
+         </thead>
+         {% if players %}
+            {% for player in players %}
+            {% if player.position == '1' %}
+            <tr class="table-warning">
+            {% else %}
+            <tr>
+            {% endif %}
+               <th scope="col">{{player.position}}</th>
+               <td>{{player.name}}</td>
+               <td>{{player.points}}</td>
+               <td>{{player.wins}}</td>
+               <td>{{player.matches}}</td>
+            </tr>
+            {% endfor %}
+         {% else %}
+         <tr>
+            <th scope="col">-</th>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+         </tr>
+         {% endif %}         
+      </table>
+   </div>
+</div>
+{% endblock content %}

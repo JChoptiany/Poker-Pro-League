@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>Add new match result</h2>
+               <small><a target="_blank" href="players">Click here to open player list</a></small>
+               <form method="POST" action="">
+                  {{ form.hidden_tag() }}
+                  <fieldset class="form-group">
+                     <div class="form-group">
+                        {{ form.date.label(class="form-control-label") }}
+                        {{ form.date(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.first_place.label(class="form-control-label") }}
+                        {{ form.first_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.second_place.label(class="form-control-label") }}
+                        {{ form.second_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.third_place.label(class="form-control-label") }}
+                        {{ form.third_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.fourth_place.label(class="form-control-label") }}
+                        {{ form.fourth_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.fifth_place.label(class="form-control-label") }}
+                        {{ form.fifth_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.sixth_place.label(class="form-control-label") }}
+                        {{ form.sixth_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.seventh_place.label(class="form-control-label") }}
+                        {{ form.seventh_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.eighth_place.label(class="form-control-label") }}
+                        {{ form.eighth_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.ninth_place.label(class="form-control-label") }}
+                        {{ form.ninth_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.tenth_place.label(class="form-control-label") }}
+                        {{ form.tenth_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.eleventh_place.label(class="form-control-label") }}
+                        {{ form.eleventh_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.twelfth_place.label(class="form-control-label") }}
+                        {{ form.twelfth_place(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.submit(class="form-control btn-primary") }}
+                     </div>
+                  </fieldset>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}

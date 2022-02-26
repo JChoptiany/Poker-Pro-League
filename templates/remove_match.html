@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>Remove match</h2>
+               <form method="POST" action="">
+                  {{ form.hidden_tag() }}
+                  <fieldset class="form-group">
+                     <div class="form-group">
+                        {{ form.id.label(class="form-control-label") }}
+                        {{ form.id(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.date.label(class="form-control-label") }}
+                        {{ form.date(class="form-control") }}
+                     </div>
+                     <div class="form-group">
+                        {{ form.confirmation.label(class="form-control-label") }}
+                        {{ form.confirmation(class="form-control") }}
+                     </div> 
+                     <div class="form-group">
+                        {{ form.submit(class="form-control btn-primary") }}
+                     </div>            
+                  </fieldset>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}

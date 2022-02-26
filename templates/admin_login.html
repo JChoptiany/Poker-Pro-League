@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>👮 Login to the Admin Panel</h2>
+               <form method="POST" action="">
+                  {{ form.hidden_tag() }}
+                  <fieldset class="form-group">                     
+                     <div class="form-group">
+                        {{ form.password.label(class="form-control-label") }}
+                        {{ form.password(class="form-control") }}
+                     </div>
+                  </fieldset>
+                  <div class="form-group"> {{ form.submit(class="btn btn-primary") }}</div>                  
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}

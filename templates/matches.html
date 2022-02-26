@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>📅 List of scheduled matches</h2>
+               <span>#️⃣ Number of matches: {{number_of_matches}}</span><br>               
+            </div>
+         </div>
+      </div>
+      <table class="table">
+         <thead class="thead-dark">
+            <tr>
+               <th scope="th">ID</th>
+               <th scope="th">Date</th>
+               <th scope="th">Time</th>
+               <th scope="th">Expected players</th>
+               <th scope="th">Confirmed players</th>
+               <th scope="th">Entry fee</th>
+            </tr>
+         </thead>
+         {% if matches %}
+            {% for match in matches %}
+            <tr>
+               <td scope="col">{{match.id}}</td>
+               <td>📆 {{match.get_date()}}</td>
+               <td>🕐 {{match.get_time()}}</td>
+               <td>❔ {{match.expected_players}}</td>
+               <td>✔️ {{match.confirmed_players}}</td>
+               <td>💵 {{match.entry_fee}} PLN</td>
+            </tr>
+            {% endfor %}
+         {% else %}
+         <tr>
+            <th scope="col">-</th>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+         </tr>
+         {% endif %}         
+      </table>
+   </div>
+</div>
+{% endblock content %}

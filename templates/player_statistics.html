@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>📊 Your statistics</h2>
+               <h2>{{player_name}}</h2>
+               <h2>
+                  {% if player.gender == 'M' %}
+                  👨
+                  {% else %}
+                  👩
+                  {% endif %}
+                  {{ player.full_name }}
+               </h2>
+               <table class="table">
+                  <tr>
+                     <td scope="col">Matches played</td>
+                     <td><strong>{{ player.matches_played }}</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Attendance</td>
+                     <td><strong>{{ player.attendance }}% ({{ player.matches_played }}/{{ total_league_matches }})</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Matches won</td>
+                     <td><strong>{{ player.wins }}</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Win rate</td>
+                     <td><strong>{{ player.win_rate }}% ({{ player.wins }}/{{ total_league_matches }})</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Recent win</td>
+                     <td><strong>{{ player.recent_win }}</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Podiums</td>
+                     <td><strong>{{ player.podiums }}</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Podium rate</td>
+                     <td><strong>{{ player.podium_rate }}% ({{ player.podiums }}/{{ total_league_matches }})</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">The highest place</td>
+
+                     {% if player.highest_place == 1 %}
+                     <td><strong>{{ player.highest_place }}st</strong></td>
+                     {% elif player.highest_place == 2 %}
+                     <td><strong>{{ player.highest_place }}nd</strong></td>
+                     {% else %}
+                     <td><strong>{{ player.highest_place }}th</strong></td>
+                     {% endif %}
+                  </tr>
+                  <tr>
+                     <td scope="col">The average place</td>
+                     <td><strong>{{ player.average_place }}</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Recent result</td>
+                     {% if player.recent_place == 1 %}
+                     <td><strong>{{ player.recent_place }}st place ({{ player.recent_match_date }})</strong></td>
+                     {% elif player.recent_place == 2 %}
+                     <td><strong>{{ player.recent_place }}nd place ({{ player.recent_match_date }})</strong></td>
+                     {% else %}
+                     <td><strong>{{ player.recent_place }}th place ({{ player.recent_match_date }})</strong></td>
+                     {% endif %}
+                  </tr>
+                  <tr>
+                     <td scope="col">Total opponents beaten</td>
+                     <td><strong>{{ player.opponents_beaten }}</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Form (according to the previous match)</td>
+                     <td><strong>{{ player.form }}</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Points</td>
+                     <td><strong>{{ player.points }}</strong></td>
+                  </tr>
+                  <tr>
+                     <td scope="col">Position</td>
+
+                     {% if player.position == 1 %}
+                     <td><strong>{{ player.position }}st</strong></td>
+                     {% elif player.position == 2 %}
+                     <td><strong>{{ player.position }}nd</strong></td>
+                     {% else %}
+                     <td><strong>{{ player.position }}th</strong></td>
+                     {% endif %}
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}

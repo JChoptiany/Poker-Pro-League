@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>👮 Admin Panel</h2>
+               <h1>Player actions</h1>
+               <a href="addPlayer"><button class="btn btn-primary btn-add">🆕 Add new player</button></a>
+               <a href="removePlayer"><button class="btn btn-primary btn-remove">🗑️ Remove existing player</button></a>
+               <a href="renamePlayer"><button class="btn btn-primary">📝 Change player nickname</button></a>
+               <a href="players"><button class="btn btn-primary">🧾 View list of players</button></a>
+               <br>
+               <br>
+               <h1>Result actions</h1>
+               <a href="addResult"><button class="btn btn-primary btn-add">🆕 Add new match result</button></a>
+               <a href="removeResults"><button class="btn btn-primary btn-remove">🗑️ Remove all the results</button></a>
+               <br>
+               <br>
+               <h1>Schedule actions</h1>
+               <a href="addMatch"><button class="btn btn-primary btn-add">🆕 Add new match</button></a>
+               <a href="removeMatch"><button class="btn btn-primary btn-remove">🗑️ Remove match</button></a>
+               <a href="matches"><button class="btn btn-primary">🧾 View list of matches</button></a>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}

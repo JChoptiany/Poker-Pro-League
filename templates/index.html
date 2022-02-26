@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- banner -->
+<section class="banner_main">
+   <div class="container-fluid">
+      <div class="row d_flex">
+         <div class="col-md-6">
+            <div class="text-bg">
+               <div class="padding_lert">
+                  <h1>Poker Pro League</h1>
+                  <a href="#about">Read More</a>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="text-img">
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- end banner -->
+<!-- about -->
+<div id="about" class="about">
+   <div class="container">
+      <div class="row d_flex">
+         <div class="col-md-7">
+            <div class="titlepage">
+               <h2>About Poker Pro League</h2>
+               <p>It is a local poker texas hold'em league for amateurs. All the matches are played in Oława.
+                  Invitations needed to join.
+               </p>
+            </div>
+         </div>
+         <div class="col-md-5">
+            <div class="about_img">
+               <figure><img src="static/images/about_img.png" alt="#" /></figure>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="choose ">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>Some numbers</h2>
+               <span>A few numbers about the current state of the Poker Pro League</span>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="choose_bg">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="choose_box">
+                  <span>{{number_of_players}}</span>
+                  <p>This is the number of registered players </p>
+               </div>
+            </div>
+            <div class="col-md-12">
+               <div class="choose_box">
+                  <span>{{number_of_matches_played}}</span>
+                  <p>Here is how many matches have already been played this season</p>
+               </div>
+            </div>
+            <div class="col-md-12">
+               <div class="choose_box">
+                  <span>{{number_of_matches_scheduled}}</span>
+                  <p>This is the number of scheduled matches</p>
+               </div>
+            </div>
+            <div class="col-md-12">
+               <div class="choose_box">
+                  <span>{{maximum_number_of_players_in_match}}</span>
+                  <p>Maximum number of players at the one table this season</p>
+               </div>
+            </div>
+            <div class="col-md-12">
+               <div class="choose_box">
+                  <span>{{active_players_percentage}}%</span>
+                  <p>Our activity. This is the percentage of the registered players who have
+                     already played in at least one match this season</p>
+               </div>
+            </div>
+            <div class="col-md-12">
+               <div class="choose_box">
+                  <span>{{age_gap}}</span>
+                  <p>Age gap. This is the difference between the age of the youngest and the oldest player in the league.</p>
+               </div>
+            </div>
+            <div class="col-md-12">
+               <div class="choose_box">
+                  <span>{{total_points}}</span>
+                  <p>Total number of points collected by all the players during this season.</p>
+               </div>
+            </div>
+            <div class="col-md-12">
+               <div class="choose_box">
+                  <span>{{ total_coins }}</span>
+                  <p>Total coins played this season</p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+{% endblock content %}

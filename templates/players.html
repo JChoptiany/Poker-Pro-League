@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>👨👩 List of registered players</h2>
+               <span>#️⃣ Number of players: {{number_of_players}}</span><br>               
+            </div>
+         </div>
+      </div>
+      <table class="table">
+         <thead class="thead-dark">
+            <tr>
+               <th scope="th">First name</th>
+               <th scope="th">Last name</th>
+               <th scope="th">Nickname</th>
+               <th scope="th">Password</th>
+               <th scope="th">Date of birth</th>
+               <th scope="th">Gender</th>
+            </tr>
+         </thead>
+         {% if players %}
+            {% for player in players %}
+            <tr>
+               <td>{{player.first_name}}</th>
+               <td>{{player.last_name}}</td>
+               <td>{{player.nickname}}</td>
+               <td style="color:white">{{player.password}}</td>
+               <td>{{player.date_of_birth}}</td>
+               {% if player.gender == 'M' %}
+               <td>♂️</td>
+               {% else %}
+               <td>♀️</td>
+               {% endif %}
+            </tr>
+            {% endfor %}
+         {% else %}
+         <tr>
+            <th scope="col">-</th>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+         </tr>
+         {% endif %}         
+      </table>
+   </div>
+</div>
+{% endblock content %}

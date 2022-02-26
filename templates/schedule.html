@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="works">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="titlepage">
+               <h2>📅 Meeting scheldule</h2>
+               {% if next_match %}
+                  <h1>The next match</h1>
+                  <h1>📆 Match date: {{ next_match.get_date() }}</h1>
+                  <h1>
+                     {% if next_match.get_time() == '16:00' %}
+                     🕓
+                     {% elif next_match.get_time() == '17:00' %}
+                     🕔
+                     {% elif next_match.get_time() == '18:00' %}
+                     🕕
+                     {% elif next_match.get_time() == '19:00' %}
+                     🕖
+                     {% elif next_match.get_time() == '20:00' %}
+                     🕗
+                     {% elif next_match.get_time() == '21:00' %}
+                     🕘
+                     {% else %} 
+                     🕑
+                     {% endif %}
+                     Match time: {{ next_match.get_time() }}</h1>
+                  <h1>⌛ Time left: {{ next_match.get_time_left() }}</h1>
+                  <h1>❔ Expected players: {{ next_match.expected_players }}</h1>
+                  {% if next_match.entry_fee %}
+                     <h1>💵 Entry fee: {{ next_match.entry_fee }} PLN</h1>
+                  {% else %}
+                     <h1>💵 Entry fee: unknown</h1>
+                  {% endif%}
+               {% else %}
+                  <br>
+                  <h1>There are no scheduled matches in the league calendar.</h1>
+               {% endif %}
+               {% if future_matches %}
+                  <br>
+                  <br>
+                  <h1>Future matches</h1>
+                  {% for match in future_matches %}
+                     <h3>📆 Match date: {{ match.get_date() }}</h3>
+                     <h3>🕑 Match time: {{ match.get_time() }}</h3>
+                     <br>
+                  {% endfor %}
+               {% endif %}
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}
