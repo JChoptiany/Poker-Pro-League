@@ -201,5 +201,5 @@ def removeResults():
         flash('Cannot remove results! Please fill all the cells correctly.', 'danger')
     return render_template('remove_results.html', title='Remove Results', form=form)
 
-if __name__ == '__main__':
-    app.run(debug=True)    
+
+app.run(debug=False)    
