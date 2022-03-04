@@ -445,3 +445,6 @@ class DatabaseConnector:
 
     def get_total_coins_played(self) -> int:
         return 100_000 * self.get_number_of_results()
+
+    def remove_outdated_matches(self) -> None:
+        self.cursor.execute("DELETE FROM Matches WHERE date < datetime('now')")

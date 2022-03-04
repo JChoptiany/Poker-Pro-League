@@ -185,6 +185,15 @@ def removeMatch():
         flash('Cannot remove match! Please fill all the cells correctly.', 'danger')
     return render_template('remove_match.html', title='Remove Match', form=form)
 
+@app.route("/removeOutdatedMatches")
+def removeOutdatedMatches():    
+    try:
+        db.remove_outdated_matches()
+        flash('Outdated matches have been removed!', 'success')
+    except Exception:
+        flash('Cannot remove matches!', 'danger')
+    return render_template("admin_panel.html")
+
 @app.route("/removeResults", methods=['GET', 'POST'])
 def removeResults():
     form = RemoveResultsForm()
