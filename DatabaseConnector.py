@@ -6,12 +6,72 @@ from Player import Player
 from Match import Match
 
 
+class PlayersTable:
+    def __init__(self, connection: sqlite3.Connection, cursor: sqlite3.Cursor) -> None:
+        self.connection = connection
+        self.cursor = cursor
+    
+    def add(self, player: Player) -> None:
+        self.cursor.execute(
+            'INSERT INTO Players VALUES(?, ?, ?, ?, ?, ?);',
+            (player.nickname, player.first_name, player.last_name, player.date_of_birth, player.gender, player.password)
+        )
+        self.connection.commit()
+
+    def get(self, nickname: str) -> Player:
+        self.cursor.execute("SELECT first_name, last_name, date_of_birth, gender, nickname, password FROM Players WHERE nickname = (?)", (nickname,))
+        response = self.cursor.fetchall()
+
+        player = Player(response[0][0], response[0][1], date.fromisoformat(response[0][2]), response[0][3], response[0][4], response[0][5])
+        return player
+    
+    def get_all(self) -> list:
+        self.cursor.execute("SELECT first_name, last_name, date_of_birth, gender, nickname, password FROM Players")
+        response = self.cursor.fetchall()
+
+        players = []
+        for raw_player in response:
+            players.append(Player(raw_player[0], raw_player[1], raw_player[2], raw_player[3], raw_player[4], raw_player[5]))
+
+        return players
+    
+    def remove(self, nickname: str) -> None:
+        self.cursor.execute("DELETE FROM Players WHERE Players.nickname = ?", (nickname,))
+
+    def rename(self, current_nickname: str, new_nickname: str) -> None:
+        self.cursor.execute("UPDATE Players SET nickname = ? WHERE nickname = ?", (new_nickname, current_nickname))
+        self.cursor.execute("UPDATE Results SET player_nickname = ? WHERE player_nickname = ?", (new_nickname, current_nickname))
+
+    def is_registered(self, nickname: str) -> bool:
+        self.cursor.execute("SELECT COUNT(nickname) FROM Players WHERE nickname = (?)", (nickname,))
+        response = self.cursor.fetchall()
+
+        return int(response[0][0]) == 1
+
+    def count(self) -> int:
+        self.cursor.execute("SELECT COUNT(nickname) FROM Players")
+        response = self.cursor.fetchall()
+ 
+        return int(response[0][0])
+    
+    def validate_date_of_birth(self, nickname: str, given_date_of_birth: date) -> bool:
+        self.cursor.execute("SELECT date_of_birth FROM Players WHERE nickname = (?)", (nickname,))
+        response = self.cursor.fetchall()
+
+        if response:
+            actual_date_of_birth = response[0][0]
+            return given_date_of_birth == actual_date_of_birth
+        else:
+            return False
+
+
 class DatabaseConnector:
     def __init__(self, file_name: str = 'poker.db'):
         self.connection = sqlite3.connect(file_name, check_same_thread=False)
         self.connection.row_factory = sqlite3.Row
         self.cursor = self.connection.cursor()
         self.create_tables_if_dont_exist()
+        self.players = PlayersTable(self.connection, self.cursor)
 
     def create_tables_if_dont_exist(self):
         self.cursor.executescript("""
@@ -52,35 +112,7 @@ class DatabaseConnector:
     def add_results(self, results) -> None:
         for result in results:
             self.add_result(result)
-
-    def add_player(self, player: Player) -> None:
-        self.cursor.execute(
-            'INSERT INTO Players VALUES(?, ?, ?, ?, ?, ?);',
-            (player.nickname, player.first_name, player.last_name, player.date_of_birth, player.gender, player.password)
-        )
-        self.connection.commit()
-
-    def add_players(self, players) -> None:
-        for player in players:
-            self.add_player(player)
-
-    def get_player_by_nickname(self, nickname: str) -> Player:
-        self.cursor.execute("SELECT first_name, last_name, date_of_birth, gender, nickname, password FROM Players WHERE nickname = (?)", (nickname,))
-        response = self.cursor.fetchall()
-
-        player = Player(response[0][0], response[0][1], date.fromisoformat(response[0][2]), response[0][3], response[0][4], response[0][5])
-        return player
-
-    def remove_player_by_nickname(self, nickname: str) -> None:
-        self.cursor.execute("DELETE FROM Players WHERE Players.nickname = ?", (nickname,))
-
-    def get_result_by_id(self, id) -> Result:
-        self.cursor.execute("SELECT * FROM Players WHERE id = (?)", id)
-        response = self.cursor.fetchall()
-
-        result = Result(datetime.fromisoformat(response[0][0]), response[0][1], response[0][2], self.get_player_by_id(response[3]))
-        return result
-    
+      
     def remove_all_the_player_results_by_nickname(self, nickname: str) -> None:
         self.cursor.execute("DELETE FROM Results WHERE Results.player_nickname = ?", (nickname,))
     
@@ -92,22 +124,9 @@ class DatabaseConnector:
         response = self.cursor.fetchall()
         results = []
         for raw_result in response:
-            results.append(Result(datetime.fromisoformat(raw_result[0]), raw_result[1], self.get_player_by_nickname(raw_result[2]), raw_result[3]))
+            results.append(Result(datetime.fromisoformat(raw_result[0]), raw_result[1], self.players.get(raw_result[2]), raw_result[3]))
 
         return results
-    
-    def change_player_nickname(self, current_nickname: str, new_nickname: str) -> None:
-        self.cursor.execute("UPDATE Players SET nickname = ? WHERE nickname = ?", (new_nickname, current_nickname))
-        self.cursor.execute("UPDATE Results SET player_nickname = ? WHERE player_nickname = ?", (new_nickname, current_nickname))
-
-    def get_all_the_players(self) -> list:
-        self.cursor.execute("SELECT first_name, last_name, date_of_birth, gender, nickname, password FROM Players")
-        response = self.cursor.fetchall()
-        players = []
-        for raw_player in response:
-            players.append(Player(raw_player[0], raw_player[1], raw_player[2], raw_player[3], raw_player[4], raw_player[5]))
-
-        return players
     
     def get_all_the_player_results_by_nickname(self, nickname: str) -> list:
         self.cursor.execute("SELECT match_date, place, player_nickname, id FROM Results WHERE player_nickname = ?", (nickname,))
@@ -132,21 +151,7 @@ class DatabaseConnector:
 
         number_of_matches = response[0][0]
         return number_of_matches
-    
-    def get_number_of_players(self) -> int:
-        self.cursor.execute("SELECT COUNT(nickname) FROM Players")
-        response = self.cursor.fetchall()
-
-        number_of_players = response[0][0]
-        return number_of_players
-
-    def is_player_registered(self, nickname: str) -> bool:
-        self.cursor.execute("SELECT COUNT(nickname) FROM Players WHERE nickname = (?)", (nickname,))
-        response = self.cursor.fetchall()
-
-        number_of_appearances = int(response[0][0])
-        return number_of_appearances > 0
-    
+        
     def get_number_of_players_in_match_by_date(self, date: datetime) -> int:
         self.cursor.execute("SELECT COUNT(player_nickname) FROM Results WHERE match_date = ?", (date.date(),))
         response = self.cursor.fetchall()
@@ -156,7 +161,7 @@ class DatabaseConnector:
 
     def get_ranking_table(self):
         player_scores = []
-        for player in self.get_all_the_players():
+        for player in self.players.get_all():
             player_data = {}
             player_data['name'] = player.get_full_name()
             player_data['points'] = 0
@@ -180,16 +185,6 @@ class DatabaseConnector:
 
         return player_scores
         
-    def validate_player_date_of_birth(self, nickname: str, given_date_of_birth: date) -> bool:
-        self.cursor.execute("SELECT date_of_birth FROM Players WHERE nickname = (?)", (nickname,))
-        response = self.cursor.fetchall()
-
-        if response:
-            actual_date_of_birth = response[0][0]
-            return given_date_of_birth == actual_date_of_birth
-        else:
-            return False
-
     def get_full_player_statistics(self, player: Player) -> list:
         player_data = {}
         player_data['full_name'] = player.first_name + ' ' + player.last_name
@@ -213,7 +208,7 @@ class DatabaseConnector:
         ranking = self.get_ranking_table()
         for record in ranking:
             if record['name'] == player_data['full_name']:
-                player_data['position'] = int(record['position'])
+                player_data['position'] = record['position']
                 break
 
         for result in self.get_all_the_player_results_by_nickname(player.nickname):
@@ -224,10 +219,15 @@ class DatabaseConnector:
                     player_data['podiums'] += 1
                 player_data['points'] += self.get_number_of_players_in_match_by_date(result.date) - result.place + 1    
         
-        player_data['attendance'] = int(player_data['matches_played'] / self.get_number_of_matches() * 100)
-        player_data['win_rate'] = int(player_data['wins'] / self.get_number_of_matches() * 100)
-        player_data['podium_rate'] = int(player_data['podiums'] / self.get_number_of_matches() * 100)
+        if int(player_data['matches_played']) > 0:
+            player_data['attendance'] = int(player_data['matches_played'] / self.get_number_of_matches() * 100)
+            player_data['win_rate'] = int(player_data['wins'] / self.get_number_of_matches_played_by_nickname(player.nickname) * 100)
+            player_data['podium_rate'] = int(player_data['podiums'] / self.get_number_of_matches_played_by_nickname(player.nickname) * 100)
 
+        else:
+            player_data['attendance'] = '-'
+            player_data['win_rate'] = '-'
+            player_data['podium_rate'] = '-'
 
         return player_data
 
@@ -385,7 +385,7 @@ class DatabaseConnector:
         response = self.cursor.fetchall()
 
         if response[0][0]:
-            return int(100 * int(response[0][0]) / self.get_number_of_players())
+            return int(100 * int(response[0][0]) / self.players.count())
         else:
             return 0
 
@@ -402,7 +402,7 @@ class DatabaseConnector:
     def get_age_gap(self) -> int:
         min_age = -1
         max_age = -1
-        players = self.get_all_the_players()
+        players = self.players.get_all()
 
         if len(players) > 1:
             for player in players:
@@ -418,7 +418,7 @@ class DatabaseConnector:
         results = self.get_all_the_player_results_by_nickname(nickname)
         
         if len(results) > 1:
-            change = results[1].place - results[0].place
+            change = results[0].place - results[1].place
             if change > 0:
                 return f'🔼 {change}'
             elif change < 0:

@@ -53,8 +53,8 @@ class AddResultForm(FlaskForm):
 class AddMatchForm(FlaskForm):
     date = StringField('Date', validators=[DataRequired()], default=datetime.now().strftime('%Y-%m-%d %H:%m'))
     expected_players = IntegerField('Expected players', validators=[DataRequired(), NumberRange(min=0, max=20)], default=0)
-    confirmed_players = IntegerField('Confirmed players', validators=[DataRequired(), NumberRange(min=0, max=20)], default=0)
-    entry_fee = IntegerField('Entry fee [PLN]', validators=[DataRequired(), NumberRange(min=0, max=1000)], default=0)
+    confirmed_players = IntegerField('Confirmed players', validators=[DataRequired(), NumberRange(min=0, max=expected_players)], default=0)
+    entry_fee = IntegerField('Entry fee [PLN]', validators=[DataRequired(), NumberRange(min=0, max=1_000_000_000)], default=0)
     submit = SubmitField('Add')
 
 class RemoveMatchForm(FlaskForm):
